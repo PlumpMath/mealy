@@ -5,6 +5,7 @@
 
 
 Installation via Leiningen / Clojars:
+
 [![Clojars Project](http://clojars.org/farbetter/mealy/latest-version.svg)](http://clojars.org/farbetter/mealy)
 
 There is only one core function:
