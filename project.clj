@@ -1,4 +1,4 @@
-(defproject farbetter/mealy "0.1.0-SNAPSHOT"
+(defproject farbetter/mealy "0.1.0"
   :description "State machine using core.async chans and running in a go block"
   :url "http://www.farbetter.com"
   :license "Eclipse Public License - v 1.0"
