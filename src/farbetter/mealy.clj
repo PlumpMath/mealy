@@ -3,7 +3,6 @@
    [clojure.core.async :refer [<!! alts! go timeout]]))
 
 
-
 (defn run-state-machine
   "See README.md for explanation of parameters"
   [state-map input-chan & {:keys [timeout-ms timeout-fn shutdown-fn] :as opts}]

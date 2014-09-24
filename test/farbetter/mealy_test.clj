@@ -103,3 +103,37 @@
     (>!! input-chan :done)
     (is (= "Got :done" (<!! output-chan)))
     (is (= "Shutting down" (<!! output-chan)))))
+
+(deftest test-timeout-w-no-timeout-fn
+  (let [input-chan (chan)
+        output-chan (chan)
+        state-map {:start (fn [current-state input]
+                            (>!! output-chan (str "Got " input))
+                            (case input
+                              "2" :state2
+                              "3" :state3
+                              :done nil
+                              :unexpected))
+                   :state2 (fn [current-state input]
+                            (>!! output-chan (str "Got " input))
+                            (case input
+                              "3" :state3
+                              :done nil
+                              :unexpected))
+                   :state3 (fn [current-state input]
+                             (>!! output-chan (str "Got " input))
+                             (case input
+                               :done nil
+                               :unexpected))
+                   :unexpected (fn [current-state input]
+                                 (>!! output-chan "Got unexpected input"))}
+        timeout-ms 10
+        shutdown-fn (fn []
+                      (>!! output-chan "Shutting down"))]
+    (run-state-machine state-map input-chan
+                       :timeout-ms timeout-ms
+                       :shutdown-fn shutdown-fn)
+    (>!! input-chan "2")
+    (is (= "Got 2" (<!! output-chan)))
+    (Thread/sleep (* timeout-ms 3)) ;; Wait for the timeout
+    (is (= "Shutting down" (<!! output-chan)))))
