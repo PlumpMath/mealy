@@ -1,19 +1,23 @@
 # mealy
 =======
 
-### A Clojure state machine using core.async channels and running in a go block
+## A Clojure state machine using core.async channels and running in a go block
 
-
+There is only one core function:
+```Clojure
+(defn run-state-machine
+  [state-map input-chan & {:keys [timeout-ms timeout-fn shutdown-fn] :as opts}])      ```
+  
 Parameters:
- - state-map: map of state keywords -> state functions
- - input-chan: core.async channel for receiving input
- - opts: (optional) Passed in as :key val pairs 
-      - :timeout-ms - ms to wait for input before timing out. If you specify
+ - `state-map` - Map of state keywords -> state functions
+ - `input-chan` - A core.async channel for receiving input
+ - `opts` (optional) Passed in as :key val pairs 
+      - `:timeout-ms` - ms to wait for input before timing out. If you specify
                       :timeout-ms, you must also specify :timeout-fn
-      - :timeout-fn - Function to be called when timeouts occur.  If you 
+      - `:timeout-fn` - Function to be called when timeouts occur.  If you 
                       specify :timeout-fn, you must also specify :timeout-ms.
                       This function will be called with no arguments.
-      - :shutdown-fn - Function to be called when the state machine exits
+      - :`shutdown-fn` - Function to be called when the state machine exits
                        This function will be called with no arguments. 
   
 The state-map must include a :start key, which is the state machine's
@@ -25,9 +29,9 @@ arguments: [current-state input]
 channel or until a user-specified timeout is reached.**
 
 
-When input is received, the corresponding state function is looked up in the
-state-fns map. That state function is then called with the arguments
-[current-state input]. The state 
+When input is received, the appropriate state function is looked up in the
+`state-map` parameter using the current state name as a key. That state
+function is then called with the arguments [current-state input]. The state 
 function should return the name of the next state or nil to exit the state
 machine. The state machine will then move into the state returned by the state
 function.

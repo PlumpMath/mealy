@@ -6,7 +6,7 @@
 
 (defn run-state-machine
   "See README.md for explanation of parameters"
-  [state-map input-chan & {:keys [timeout-ms timeout-fn shutdown-fn]}]
+  [state-map input-chan & {:keys [timeout-ms timeout-fn shutdown-fn] :as opts}]
   (go
     (let [state (atom :start)]
       (while @state
