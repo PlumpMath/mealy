@@ -1,12 +1,13 @@
 # mealy
 =======
 
-## A Clojure state machine using core.async channels and running in a go block
+#### A Clojure state machine using core.async channels and running in a go block
 
 There is only one core function:
 ```Clojure
 (defn run-state-machine
-  [state-map input-chan & {:keys [timeout-ms timeout-fn shutdown-fn] :as opts}])      ```
+  [state-map input-chan & {:keys [timeout-ms timeout-fn shutdown-fn] :as opts}])
+```
   
 Parameters:
  - `state-map` - Map of state keywords -> state functions
