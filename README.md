@@ -27,8 +27,8 @@ initial state. All values in the state map should be functions of two
 arguments: `[current-state input]`.
 
 
-**Nothing happens until an input is received on the input
-channel or until a user-specified timeout is reached.**
+**Nothing happens until an input is received on the `input-chan`
+or until a user-specified timeout is reached.**
 
 
 When input is received, the appropriate state function is looked up in the
