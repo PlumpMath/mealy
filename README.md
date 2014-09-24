@@ -3,7 +3,8 @@
 
 #### A Clojure state machine using core.async chans and running in a go block
 
-#### Installation via Leiningen / Clojars:
+
+Installation via Leiningen / Clojars:
 [![Clojars Project](http://clojars.org/farbetter/mealy/latest-version.svg)](http://clojars.org/farbetter/mealy)
 
 There is only one core function:
