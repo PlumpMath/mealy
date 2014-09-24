@@ -1,12 +1,18 @@
 # mealy
 =======
 
-#### A Clojure state machine using core.async chans and running in a go block
+A Clojure state machine using core.async chans and running in a go block
 
 
-Installation via Leiningen / Clojars:
+##Installation via Leiningen / Clojars:
 
 [![Clojars Project](http://clojars.org/farbetter/mealy/latest-version.svg)](http://clojars.org/farbetter/mealy)
+
+##Usage:
+```Clojure
+(ns com.example.your-application
+  (:require [farbetter.mealy :refer [run-state-machine]]))
+```
 
 There is only one core function:
 ```Clojure
@@ -14,7 +20,7 @@ There is only one core function:
   [state-map input-chan & {:keys [timeout-ms timeout-fn shutdown-fn] :as opts}])
 ```
   
-Parameters:
+###Parameters:
  - `state-map` - Map of state keywords -> state functions
  - `input-chan` - A core.async channel for receiving input
  - `opts` (optional) Passed in as :key val pairs 
@@ -55,7 +61,7 @@ If a `:shutdown-fn` is specified, the given function will be called with no
 arguments when the state machine exits.
 
 
-Usage examples:
+###Usage examples:
 These examples are from the test suite and are presented as clojure.test tests.
 
 ```Clojure
