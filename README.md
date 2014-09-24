@@ -22,7 +22,7 @@ Parameters:
       - :`shutdown-fn` - Function to be called when the state machine exits.
                        This function should take no arguments. 
   
-The state-map must include a :start key, which is the state machine's
+The state-map must include a `:start` key, which is the state machine's
 initial state. All values in the state map should be functions of two
 arguments: `[current-state input]`.
 
