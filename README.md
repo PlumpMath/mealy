@@ -1,7 +1,8 @@
 # mealy
 =======
 
-#### A Clojure state machine using core.async channels and running in a go block
+##### A Clojure state machine using core.async channels and running in a
+go block
 
 There is only one core function:
 ```Clojure
@@ -14,11 +15,12 @@ Parameters:
  - `input-chan` - A core.async channel for receiving input
  - `opts` (optional) Passed in as :key val pairs 
       - `:timeout-ms` - ms to wait for input before timing out. If you specify
-                      :timeout-ms, you must also specify :timeout-fn
+                      `:timeout-ms`, you must also specify `:timeout-fn`.
       - `:timeout-fn` - Function to be called when timeouts occur.  If you 
-                      specify :timeout-fn, you must also specify :timeout-ms.
+                      specify `:timeout-fn`, you must also specify
+                      `:timeout-ms`.
                       This function will be called with no arguments.
-      - :`shutdown-fn` - Function to be called when the state machine exits
+      - :`shutdown-fn` - Function to be called when the state machine exits.
                        This function will be called with no arguments. 
   
 The state-map must include a :start key, which is the state machine's
