@@ -24,7 +24,7 @@ Parameters:
   
 The state-map must include a :start key, which is the state machine's
 initial state. All values in the state map should be functions of two
-arguments: [current-state input]
+arguments: `[current-state input]`.
 
 
 **Nothing happens until an input is received on the input
@@ -33,19 +33,20 @@ channel or until a user-specified timeout is reached.**
 
 When input is received, the appropriate state function is looked up in the
 `state-map` parameter using the current state name as a key. That state
-function is then called with the arguments [current-state input]. The state 
+function is then called with the arguments `[current-state input]`. The state 
 function should return the name of the next state or nil to exit the state
 machine. The state machine will then move into the state returned by the state
 function.
 
 
-If :timeout-ms is specified, timeouts are enabled. If the specifed amount of
-time passes while waiting for input, the timeout-fn is called with no arguments.
-The timeout-fn should return the name of the next state or nil to exit the state
-machine.
+If `:timeout-ms` is specified, timeouts are enabled. If the specifed amount of
+time passes while waiting for input, the function specified by `:timeout-fn`
+is called with no arguments. The timeout-fn should return the name of the next
+state or nil to exit the state machine. If no `:timeout-fn` is specified, the
+state machine will exit on timeout.
 
 
-If :shutdown-fn is specified, the given function will be called with no
+If a `:shutdown-fn` is specified, the given function will be called with no
 arguments when the state machine exits.
 
 
