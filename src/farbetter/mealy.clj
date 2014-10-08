@@ -1,7 +1,7 @@
 (ns farbetter.mealy
   (:require
    [clojure.core.async
-    :refer [alts! chan dropping-buffer alts! go timeout <! >!]]))
+    :refer [alts! chan dropping-buffer alts! go timeout <! <!! >!] :as async]))
 
 (defn- exception->ex-info [e]
   (if (instance? clojure.lang.ExceptionInfo e)
