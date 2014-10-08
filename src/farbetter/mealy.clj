@@ -40,3 +40,14 @@
           (shutdown-fn)))
       (catch Exception e (>! error-chan (exception->ex-info e)))))
   error-chan)
+
+(defn throw-err [e]
+  (when (instance? Throwable e)
+    (throw e))
+  e)
+
+(defmacro <!!? [ch]
+  `(farbetter.mealy/throw-err (<!! ~ch)))
+
+(defmacro <!? [ch]
+  `(farbetter.mealy/throw-err (<! ~ch)))
