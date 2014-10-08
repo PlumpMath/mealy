@@ -137,3 +137,20 @@
     (is (= "Got 2" (<!! output-chan)))
     (Thread/sleep (* timeout-ms 3)) ;; Wait for the timeout
     (is (= "Shutting down" (<!! output-chan)))))
+
+(deftest test-non-existent-state-using-returned-error-chan
+  (let [input-chan (chan)
+        state-map {:start (constantly :non-existent-state)}
+        error-chan (run-state-machine state-map input-chan)]
+    (>!! input-chan "some input")
+    (is (= "Next state (:non-existent-state) does not exist."
+           (.getMessage (<!! error-chan))))))
+
+(deftest test-non-existent-state-using-provided-error-chan
+  (let [input-chan (chan)
+        error-chan (chan)
+        state-map {:start (constantly :non-existent-state)}]
+    (run-state-machine state-map input-chan :error-chan error-chan)
+    (>!! input-chan "some input")
+    (is (= "Next state (:non-existent-state) does not exist."
+           (.getMessage (<!! error-chan))))))
