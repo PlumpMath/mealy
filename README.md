@@ -23,7 +23,10 @@ There is only one core function:
 ###Parameters:
  - `state-map` - Map of state keywords -> state functions
  - `input-chan` - A core.async channel for receiving input
- - `opts` (optional) Passed in as :key val pairs 
+ - Optional arguments passed in as :key val pairs 
+      - `:error-chan` - a channel to receive errors thrown inside the
+            state machine. See the **Return Value** section below for more 
+            information
       - `:timeout-ms` - ms to wait for input before timing out. If no
             `:timeout-fn` is specified, the state machine will exit on timeout.
       - `:timeout-fn` - Function to be called when timeouts occur.  If you 
@@ -49,7 +52,6 @@ function should return the name of the next state or nil to exit the state
 machine. The state machine will then move into the state returned by the state
 function.
 
-
 If `:timeout-ms` is specified, timeouts are enabled. If the specifed amount of
 time passes while waiting for input, the function specified by `:timeout-fn`
 is called with no arguments. The timeout-fn should return the name of the next
@@ -59,6 +61,13 @@ state machine will exit on timeout.
 
 If a `:shutdown-fn` is specified, the given function will be called with no
 arguments when the state machine exits.
+
+### Return value:
+The return value is an error channel that will contain ex-info objects for any 
+exceptions thrown inside the state machine (including those thrown by state 
+functions). If the error channel is not explicitly provided in the arguments to 
+`run-state-machine`, a channel with a dropping buffer of size 10 is used for
+the error channel.
 
 
 ###Usage examples:
