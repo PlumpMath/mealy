@@ -52,8 +52,6 @@ function should return the name of the next state or nil to exit the state
 machine. The state machine will then move into the state returned by the state
 function.
 
-If 
-
 If `:timeout-ms` is specified, timeouts are enabled. If the specifed amount of
 time passes while waiting for input, the function specified by `:timeout-fn`
 is called with no arguments. The timeout-fn should return the name of the next
