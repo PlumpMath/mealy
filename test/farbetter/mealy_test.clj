@@ -60,7 +60,7 @@
                    :unexpected (fn [current-state input]
                                  (>!! output-chan "Got unexpected input"))}
         timeout-ms 10
-        tof (fn []
+        tof (fn [current-state]
              (>!! output-chan "TIMEOUT!!!!!!!!")
              nil)]
     (run-state-machine state-map input-chan

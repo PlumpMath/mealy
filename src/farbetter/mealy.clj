@@ -28,7 +28,7 @@
                              (condp = ch
                                input-chan nil                ;; Chan closed
                                timeout-chan (when timeout-fn ;; Chan timeout
-                                              (timeout-fn)))
+                                              (timeout-fn @state)))
                              (when state-fn
                                (state-fn @state data)))]
             (when next-state
