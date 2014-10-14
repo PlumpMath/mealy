@@ -31,8 +31,8 @@ There is only one core function:
             `:timeout-fn` is specified, the state machine will exit on timeout.
       - `:timeout-fn` - Function to be called when timeouts occur.  If you 
             specify `:timeout-fn`, you must also specify `:timeout-ms`. This
-            function should take no arguments and should return either the
-            name of the next state or nil to exit.
+            function should take the current state as an argument and should
+            return either the name of the next state or nil to exit.
       - :`shutdown-fn` - Function to be called when the state machine exits.
                        This function should take no arguments. 
   
