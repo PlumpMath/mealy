@@ -26,18 +26,19 @@ Required Parameters:
  - `input-chan` - A core.async channel for receiving input
 
 Optional parameters passed in as :key val pairs:
-      - `:timeout-ms` - ms to wait for input before timing out. If no
-            `:timeout-fn` is specified, the state machine will exit on timeout.
-      - `:timeout-fn` - Function to be called when timeouts occur.  If you 
+
+- `:timeout-ms` - ms to wait for input before timing out. If no
+        `:timeout-fn` is specified, the state machine will exit on timeout.
+- `:timeout-fn` - Function to be called when timeouts occur.  If you 
             specify `:timeout-fn`, you must also specify `:timeout-ms`. This
             function should take the current state as an argument and should
             return either the name of the next state or nil to exit.
-      - `:shutdown-fn` - Function to be called when the state machine exits.
+- `:shutdown-fn` - Function to be called when the state machine exits.
                        This function should take no arguments. 
-      - `:error-fn` - Function to be called when there are errors in the
+- `:error-fn` - Function to be called when there are errors in the
             state machine. The specified function will be called with one
             argument, an ExceptionInfo object.
-      - `:debug-fn` - Function of one argument to receive debugging calls.
+- `:debug-fn` - Function of one argument to receive debugging calls.
             The specified function will be called at various points during
             the state machine's excecution to give debugging information.
             The function should accept one string argument.
