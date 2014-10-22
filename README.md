@@ -25,7 +25,7 @@ Required Parameters:
  - `state-map` - Map of state keywords -> state functions
  - `input-chan` - A core.async channel for receiving input
 
-Optional parameters passed in as :key val pairs 
+Optional parameters passed in as :key val pairs:
       - `:timeout-ms` - ms to wait for input before timing out. If no
             `:timeout-fn` is specified, the state machine will exit on timeout.
       - `:timeout-fn` - Function to be called when timeouts occur.  If you 
