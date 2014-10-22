@@ -12,8 +12,7 @@
 (defn run-state-machine
   "See README.md for explanation of parameters"
   [state-map input-chan 
-   & {:keys [error-chan timeout-ms timeout-fn shutdown-fn]
-      :or {error-chan (chan (dropping-buffer 10))}}]
+   & {:keys [timeout-ms timeout-fn shutdown-fn error-fn]}]
   (go
     (try
       (let [state (atom :start)]
@@ -38,8 +37,9 @@
             (reset! state next-state)))
         (when shutdown-fn
           (shutdown-fn)))
-      (catch Exception e (>! error-chan (exception->ex-info e)))))
-  error-chan)
+      (catch Exception e (when error-fn
+                           (error-fn (exception->ex-info e))))))
+  nil)
 
 (defn throw-err [e]
   (when (instance? Throwable e)

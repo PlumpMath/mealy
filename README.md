@@ -24,9 +24,6 @@ There is only one core function:
  - `state-map` - Map of state keywords -> state functions
  - `input-chan` - A core.async channel for receiving input
  - Optional arguments passed in as :key val pairs 
-      - `:error-chan` - a channel to receive errors thrown inside the
-            state machine. See the **Return Value** section below for more 
-            information
       - `:timeout-ms` - ms to wait for input before timing out. If no
             `:timeout-fn` is specified, the state machine will exit on timeout.
       - `:timeout-fn` - Function to be called when timeouts occur.  If you 
@@ -35,6 +32,9 @@ There is only one core function:
             return either the name of the next state or nil to exit.
       - :`shutdown-fn` - Function to be called when the state machine exits.
                        This function should take no arguments. 
+      - :`error-fn` - Function to be called when there are errors in the
+            state machine. The specified function will be called with one
+            argument, an ExceptionInfo object.
   
 The state-map must include a `:start` key, which is the state machine's
 initial state. All values in the state map should be functions of two
@@ -64,12 +64,7 @@ If a `:shutdown-fn` is specified, the given function will be called with no
 arguments when the state machine exits.
 
 ### Return value:
-The return value is an error channel that will contain ex-info objects for any 
-exceptions thrown inside the state machine (including those thrown by state 
-functions). If the error channel is not explicitly provided in the arguments to 
-`run-state-machine`, a channel with a dropping buffer of size 10 is used for
-the error channel.
-
+The return value is nil.
 
 ###Usage examples:
 These examples are from the test suite and are presented as clojure.test tests.
