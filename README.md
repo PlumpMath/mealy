@@ -21,9 +21,10 @@ Create a state machine by calling `make-state-machine`:
 ```
   
 ###Parameters:
+Required Parameters:
  - `state-map` - Map of state keywords -> state functions
  - `input-chan` - A core.async channel for receiving input
- - Optional arguments passed in as :key val pairs 
+ Optional parameters passed in as :key val pairs 
       - `:timeout-ms` - ms to wait for input before timing out. If no
             `:timeout-fn` is specified, the state machine will exit on timeout.
       - `:timeout-fn` - Function to be called when timeouts occur.  If you 
@@ -52,8 +53,8 @@ To start or stop the state machine, use the appropriate methods:
 ```
 
 
-**Nothing happens until an input is received on the `input-chan`
-or until a user-specified timeout is reached.**
+Once the state machine is started, **nothing happens until an input is
+received on the `input-chan` or until a user-specified timeout is reached.**
 
 
 When input is received, the appropriate state function is looked up in the
