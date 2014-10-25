@@ -1,8 +1,9 @@
 (ns farbetter.mealy-test
   (:require
+   [com.stuartsierra.component :refer [start]]
    [clojure.core.async :refer [>!! <!! chan]]
    [clojure.test :refer :all]
-   [farbetter.mealy :refer [make-state-machine start]]))
+   [farbetter.mealy :refer [make-state-machine]]))
 
 
 (deftest test-basics

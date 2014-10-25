@@ -1,13 +1,10 @@
 (ns farbetter.mealy
   (:require
    [clojure.core.async
-    :refer [alts! chan close! go timeout <! <!! >!]]))
+    :refer [alts! chan close! go timeout <! <!! >!]]
+   [com.stuartsierra.component :as component]))
 
 (declare exception->ex-info)
-
-(defprotocol Lifecycle
-  (start [this])
-  (stop [this]))
 
 (defn- get-next-state [state-machine data ch timeout-chan]
   (let [{:keys [state input-chan debug-fn timeout-fn state-map]} state-machine
@@ -31,7 +28,7 @@
 
 (defrecord StateMachine [state state-map input-chan timeout-ms timeout-fn shutdown-fn
                          error-fn debug-fn]
-  Lifecycle
+  component/Lifecycle
   (start [this]
     (go
       (try
