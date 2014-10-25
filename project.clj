@@ -1,4 +1,4 @@
-(defproject farbetter/mealy "0.6.1"
+(defproject farbetter/mealy "0.6.0"
   :description "State machine using core.async chans and running in a go block"
   :url "https://github.com/farbetter/mealy"
   :license {:name "Eclipse Public License"
@@ -8,6 +8,6 @@
                        :url "https://github.com/farbetter/mealy"}
                  :deploy-via :clojars}
   :deploy-repositories [["clojars" {:creds :gpg}]]  
-  :dependencies  [[com.stuartsierra/component "0.2.2"]
-                  [org.clojure/clojure "1.6.0"]
-                  [org.clojure/core.async "0.1.346.0-17112a-alpha"]])
+  :dependencies
+  [[org.clojure/clojure "1.6.0"]
+   [org.clojure/core.async "0.1.346.0-17112a-alpha"]])
