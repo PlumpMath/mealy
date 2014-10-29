@@ -1,7 +1,12 @@
 (ns farbetter.mealy
   (:require
-   [clojure.core.async
-    :refer [alts! chan close! go timeout <! <!! >!]]))
+   [#+clj clojure.core.async
+    #+cljs cljs.core.async
+    :refer [alts! chan close! timeout <! #+clj <!! >! #+clj go]])
+  #+cljs (:require-macros [cljs.core.async.macros :refer [go]]))
+
+#+cljs
+(def Exception js/Error)
 
 (declare exception->ex-info)
 
@@ -50,8 +55,10 @@
                                                 next-state))))
             (when next-state
               (when-not (contains? state-map next-state)
-                (throw (IllegalArgumentException.
-                        (str "Next state (" next-state ") does not exist.")))))
+                (throw (ex-info 
+                        (str "Next state (" next-state ") does not exist.")
+                        {:type :nonexistent-next-state
+                         :next-state next-state}))))
             (reset! state next-state)))
         (when shutdown-fn
           (shutdown-fn))
@@ -68,18 +75,24 @@
                   shutdown-fn error-fn debug-fn))
 
 (defn- exception->ex-info [e]
-  (if (instance? clojure.lang.ExceptionInfo e)
+  (if (instance? #+clj clojure.lang.ExceptionInfo
+                 #+cljs cljs.core/ExceptionInfo
+                 e)
     e
     (ex-info (.getMessage e) {:type :state-machine-exception
                               :original-exception e})))
 
-(defn throw-err [e]
-  (when (instance? Throwable e)
-    (throw e))
-  e)
 
-(defmacro <!!? [ch]
-  `(farbetter.mealy/throw-err (<!! ~ch)))
+;; We think these are unneeded, since all state machine exceptions are
+;; sent to the error-fn
+;; (defn throw-err [e]
+;;   (when (instance? Throwable e)
+;;     (throw e))
+;;   e)
 
-(defmacro <!? [ch]
-  `(farbetter.mealy/throw-err (<! ~ch)))
+;; #+clj
+;; (defmacro <!!? [ch]
+;;   `(farbetter.mealy/throw-err (<!! ~ch)))
+
+;; (defmacro <!? [ch]
+;;   `(farbetter.mealy/throw-err (<! ~ch)))
