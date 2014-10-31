@@ -36,7 +36,7 @@
             :test {:source-paths ["target/generated/src/cljs"
                                   "target/generated/test/cljs"]
                    :compiler {:output-to "target/unit-test.js"
-                              :optimizations :advanced
+                              :optimizations :simple
                               :pretty-print true
                               :hashbang false}}}}
 
