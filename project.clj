@@ -7,8 +7,7 @@
             [lein-cljsbuild "1.0.3"]
             [lein-release "1.0.5"]]
   :hooks [cljx.hooks leiningen.cljsbuild]
-  :profiles {:dev {:plugins [[com.keminglabs/cljx "0.4.0"]
-                             [org.bodil/cljs-noderepl "0.1.11"]]}}
+  :profiles {:dev {:plugins [[com.keminglabs/cljx "0.4.0"]]}}
 
   :repl-options {:nrepl-middleware [cemerick.piggieback/wrap-cljs-repl]}
 
@@ -32,12 +31,16 @@
                   :compiler {:output-to "target/main.js"
                              :optimizations :advanced
                              :pretty-print true
+                             :target :nodejs
                              :jar true}}
             :test {:source-paths ["target/generated/src/cljs"
                                   "target/generated/test/cljs"]
+                   :notify-command ["node" :node-runner "target/unit-test.js"]
                    :compiler {:output-to "target/unit-test.js"
                               :optimizations :simple
+                              :warnings true
                               :pretty-print true
+                              :target :nodejs
                               :hashbang false}}}}
 
   :lein-release {:scm {:name "git"
@@ -50,5 +53,5 @@
   :deploy-repositories [["clojars" {:creds :gpg}]]  
   :dependencies
   [[org.clojure/clojure "1.6.0"]
-   [org.clojure/clojurescript "0.0-2371"]
+   [org.clojure/clojurescript "0.0-2227"]
    [org.clojure/core.async "0.1.346.0-17112a-alpha"]])
