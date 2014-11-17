@@ -5,8 +5,8 @@
     :refer [alts! chan close! timeout <! #+clj <!! >! #+clj go]])
   #+cljs (:require-macros [cljs.core.async.macros :refer [go]]))
 
-#+cljs
-(def Exception js/Error)
+#+cljs (def Exception js/Error)
+#+cljs (def Throwable js/Error)
 
 (declare exception->ex-info)
 
@@ -82,17 +82,8 @@
     (ex-info (.getMessage e) {:type :state-machine-exception
                               :original-exception e})))
 
+(defn throw-err [e]
+  (when (instance? Throwable e)
+    (throw e))
+  e)
 
-;; We think these are unneeded, since all state machine exceptions are
-;; sent to the error-fn
-;; (defn throw-err [e]
-;;   (when (instance? Throwable e)
-;;     (throw e))
-;;   e)
-
-;; #+clj
-;; (defmacro <!!? [ch]
-;;   `(farbetter.mealy/throw-err (<!! ~ch)))
-
-;; (defmacro <!? [ch]
-;;   `(farbetter.mealy/throw-err (<! ~ch)))

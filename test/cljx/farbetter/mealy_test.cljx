@@ -5,10 +5,14 @@
    #+cljs [cljs.core.async :refer [>! <! chan timeout]]
    #+clj  [clojure.core.async :refer [>! <! chan go timeout]]
    #+clj  [clojure.test :refer [deftest is]]
-   [farbetter.mealy :refer [make-state-machine start]])
+   [farbetter.mealy :refer [make-state-machine start]]
+   #+clj  [farbetter.mealy.macros :refer [<!? <!!?]]
+   #+clj [taoensso.timbre :as timbre :refer [debug error info]]
+   #+cljs [taoensso.encore :refer [debugf errorf infof warnf]])
   #+cljs (:require-macros
           [cemerick.cljs.test :refer [block-or-done deftest is]]
-          [cljs.core.async.macros :refer [go]]))
+          [cljs.core.async.macros :refer [go]]
+          [farbetter.mealy.macros :refer [<!?]]))
 
 (defn make-state-map [output-chan]
   {:start (fn [current-state input]
@@ -34,6 +38,7 @@
                :unexpected))
    :unexpected (fn [current-state input]
                  (>! output-chan "Got unexpected input"))})
+
 
 (deftest ^:async test-basics
   (let [input-chan (chan)
@@ -134,6 +139,18 @@
       (>! control-chan true))
     (block-or-done control-chan)))
 
+(deftest ^:async test-<!!?
+  (let [control-chan (chan)
+        test-chan (chan 1)
+        ex (ex-info "test" {:type :test})]
+    (go
+      (>! test-chan ex)
+      (is (thrown-with-msg? #+clj clojure.lang.ExceptionInfo
+                            #+cljs cljs.core/ExceptionInfo
+                            #"test"
+                            (<!? test-chan)))
+      (>! control-chan true))
+    (block-or-done control-chan)))
 
 ;; TODO: Fix ordering issue in debug fn. Make debug msg order
 ;; determinisitc.

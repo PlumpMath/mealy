@@ -1,4 +1,4 @@
-(defproject farbetter/mealy "0.7.1"
+(defproject farbetter/mealy "0.7.2"
   :description "State machine using core.async chans and running in a go block"
   :url "https://github.com/farbetter/mealy"
   :license {:name "Eclipse Public License"
@@ -9,7 +9,8 @@
             [lein-release "1.0.5"]]
 
   :dependencies
-  [[org.clojure/clojure "1.6.0"]
+  [[com.taoensso/timbre "3.3.1"]
+   [org.clojure/clojure "1.6.0"]
    [org.clojure/clojurescript "0.0-2371"]
    [org.clojure/core.async "0.1.346.0-17112a-alpha"]]
 
@@ -61,6 +62,6 @@
   :test-paths ["target/generated/test/clj"]  
 
   :aliases
-  {"cljtest" ["do" "clean," "cljx" "once," "test"]
-   "cljstest" ["do" "clean," "cljx" "once," "cljsbuild" "test"]
-   "testall" ["do" "clean," "cljx" "once," "test," "cljsbuild" "test"]})
+  {"testclj" ["do" "clean," "cljx" "once," "test"]
+   "testcljs" ["do" "clean," "cljx" "once," "cljsbuild" "test"]
+   "testall" ["do" "clj," "cljs"]})
