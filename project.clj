@@ -1,4 +1,4 @@
-(defproject farbetter/mealy "0.7.2"
+(defproject farbetter/mealy "0.7.3"
   :description "State machine using core.async chans and running in a go block"
   :url "https://github.com/farbetter/mealy"
   :license {:name "Eclipse Public License"
@@ -19,6 +19,8 @@
               :repl-options
               {:nrepl-middleware [cemerick.piggieback/wrap-cljs-repl
                                   cljx.repl-middleware/wrap-cljx]}}}
+
+  :hooks [cljx.hooks leiningen.cljsbuild]
 
   :cljx {:builds [{:source-paths ["src/cljx"]
                    :output-path "target/generated/src/clj"
@@ -64,4 +66,4 @@
   :aliases
   {"testclj" ["do" "clean," "cljx" "once," "test"]
    "testcljs" ["do" "clean," "cljx" "once," "cljsbuild" "test"]
-   "testall" ["do" "clj," "cljs"]})
+   "testall" ["do" "testclj," "testcljs"]})
