@@ -1,12 +1,12 @@
-(defproject farbetter/mealy "0.7.4"
+(defproject farbetter/mealy "0.7.5"
   :description "State machine using core.async chans and running in a go block"
   :url "https://github.com/farbetter/mealy"
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
 
-  :plugins [[com.cemerick/clojurescript.test "0.3.1"]
+  :plugins [[com.cemerick/clojurescript.test "0.3.2"]
             [lein-cljsbuild "1.0.3"]
-            [lein-release "1.0.5"]]
+            [lein-release "1.0.6"]]
 
   :dependencies
   [[com.taoensso/encore "1.18.3"]
@@ -16,12 +16,12 @@
    [org.clojure/core.async "0.1.346.0-17112a-alpha"]]
 
   :profiles {:dev
-             {:plugins [[com.keminglabs/cljx "0.4.0"]]
+             {:plugins [[com.keminglabs/cljx "0.5.0"]]
               :repl-options
               {:nrepl-middleware [cemerick.piggieback/wrap-cljs-repl
                                   cljx.repl-middleware/wrap-cljx]}}}
 
-  :hooks [cljx.hooks leiningen.cljsbuild]
+  :prep-tasks [["cljx" "once"]]
 
   :cljx {:builds [{:source-paths ["src/cljx"]
                    :output-path "target/generated/src/clj"
@@ -65,6 +65,15 @@
   :test-paths ["target/generated/test/clj"]  
 
   :aliases
-  {"testclj" ["do" "clean," "cljx" "once," "test"]
-   "testcljs" ["do" "clean," "cljx" "once," "cljsbuild" "test"]
-   "testall" ["do" "testclj," "testcljs"]})
+  {"testclj" ["do"
+              "clean,"
+              "cljx" "once,"
+              "test"]
+   "testcljs" ["do"
+               "clean,"
+               "cljx" "once,"
+               "cljsbuild" "once" "code" "test,"
+               "cljsbuild" "test" "unit-tests"]
+   "testall" ["do"
+              "testclj,"
+              "testcljs"]})
