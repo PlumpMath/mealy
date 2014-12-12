@@ -4,7 +4,7 @@
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
 
-  :plugins [[com.cemerick/clojurescript.test "0.3.2"]
+  :plugins [[com.cemerick/clojurescript.test "0.3.3-SNAPSHOT"]
             [lein-cljsbuild "1.0.3"]
             [lein-release "1.0.6"]]
 
