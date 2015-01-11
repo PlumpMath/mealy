@@ -34,8 +34,8 @@
         (when state-fn
           (state-fn @state data))))))
 
-(defrecord StateMachine [state state-map input-chan timeout-ms timeout-fn shutdown-fn
-                         error-fn debug-fn]
+(defrecord StateMachine [state state-map input-chan timeout-ms timeout-fn
+                         shutdown-fn error-fn debug-fn]
   Lifecycle
   (start [this]
     (go
@@ -55,7 +55,7 @@
                                                 next-state))))
             (when next-state
               (when-not (contains? state-map next-state)
-                (throw (ex-info 
+                (throw (ex-info
                         (str "Next state (" next-state ") does not exist.")
                         {:type :nonexistent-next-state
                          :next-state next-state}))))
@@ -86,4 +86,3 @@
   (when (instance? Throwable e)
     (throw e))
   e)
-

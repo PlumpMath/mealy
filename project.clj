@@ -1,4 +1,4 @@
-(defproject farbetter/mealy "0.7.6"
+(defproject farbetter/mealy "0.7.6-SNAPSHOT"
   :description "State machine using core.async chans and running in a go block"
   :url "https://github.com/farbetter/mealy"
   :license {:name "Eclipse Public License"
@@ -52,17 +52,17 @@
    :test-commands {"unit-tests" ["phantomjs" :runner
                                  "target/unit-test.js"]}}
 
-  :deploy-repositories [["clojars" {:creds :gpg}]]  
+  :deploy-repositories [["clojars" {:creds :gpg}]]
   :lein-release {:scm {:name "git"
                        :url "https://github.com/farbetter/mealy"}
                  :deploy-via :clojars}
 
-  
+
 
   :jar-exclusions [#"\.cljx|\.swp|\.swo|\.DS_Store"]
   :source-paths ["target/generated/src/clj" "src/clj"]
   :resource-paths ["target/generated/src/cljs"]
-  :test-paths ["target/generated/test/clj"]  
+  :test-paths ["target/generated/test/clj"]
 
   :aliases
   {"testclj" ["do"
