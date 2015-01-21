@@ -81,8 +81,3 @@
     e
     (ex-info (.getMessage e) {:type :state-machine-exception
                               :original-exception e})))
-
-(defn throw-err [e]
-  (when (instance? Throwable e)
-    (throw e))
-  e)

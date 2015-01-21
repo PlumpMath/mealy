@@ -9,10 +9,10 @@
             [lein-release "1.0.6"]]
 
   :dependencies
-  [[com.taoensso/encore "1.18.3"]
+  [[com.taoensso/encore "1.19.1"]
    [com.taoensso/timbre "3.3.1"]
    [org.clojure/clojure "1.6.0"]
-   [org.clojure/clojurescript "0.0-2411"]
+   [org.clojure/clojurescript "0.0-2665"]
    [org.clojure/core.async "0.1.346.0-17112a-alpha"]]
 
   :profiles {:dev
