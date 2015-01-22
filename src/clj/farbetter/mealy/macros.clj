@@ -12,9 +12,15 @@
   (if (cljs-env? &env) then else))
 
 (defmacro throw-err [e]
-  `(if (instance? Throwable ~e)
-     (throw ~e)
-     ~e))
+  `(let [e# ~e]
+     (if (instance? Throwable e#)
+       (throw e#)
+       e#)))
+
+(defn throw-err [e]
+  (if (instance? Throwable e)
+    (throw e)
+    e))
 
 (defmacro <!? [ch]
   `(if-cljs
