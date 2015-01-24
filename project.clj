@@ -1,4 +1,4 @@
-(defproject farbetter/mealy "0.7.9-SNAPSHOT"
+(defproject farbetter/mealy "0.7.9"
   :description "State machine using core.async chans and running in a go block"
   :url "https://github.com/farbetter/mealy"
   :license {:name "Eclipse Public License"
@@ -53,8 +53,7 @@
                                  "target/unit-test.js"]}}
 
   :deploy-repositories [["clojars" {:creds :gpg}]]
-  :lein-release {:scm {:name "git"
-                       :url "https://github.com/farbetter/mealy"}
+  :lein-release {:scm :git
                  :deploy-via :clojars}
 
 
