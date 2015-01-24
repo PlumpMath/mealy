@@ -13,7 +13,7 @@
 
 (defmacro throw-err [e]
   `(let [e# ~e]
-     (if (instance? Throwable e#)
+     (if (instance? (if-cljs js/Error Throwable) e#)
        (throw e#)
        e#)))
 
