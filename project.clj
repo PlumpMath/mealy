@@ -1,4 +1,4 @@
-(defproject farbetter/mealy "0.7.10-SNAPSHOT"
+(defproject farbetter/mealy "0.7.10"
   :description "State machine using core.async chans and running in a go block"
   :url "https://github.com/farbetter/mealy"
   :license {:name "Eclipse Public License"
@@ -39,10 +39,10 @@
   :cljsbuild
   {:builds
    {"code" {:source-paths ["target/generated/src/cljs"]
+            :jar true
             :compiler {:output-to "target/main.js"
                        :optimizations :simple
-                       :pretty-print false
-                       :jar true}}
+                       :pretty-print false}}
     "test" {:source-paths ["target/generated/src/cljs"
                            "target/generated/test/cljs"]
             :compiler {:output-to "target/unit-test.js"
