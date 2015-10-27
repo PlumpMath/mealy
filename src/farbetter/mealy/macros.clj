@@ -22,6 +22,9 @@
     (throw-err (cljs.core.async/<! ~ch))
     (throw-err (clojure.core.async/<! ~ch))))
 
+
+;; TODO: <!! doesn' exist in cljs, so throw an error at macro
+;; expansion time
 (defmacro <!!? [ch]
   `(if-cljs
     (throw-err (cljs.core.async/<!! ~ch))

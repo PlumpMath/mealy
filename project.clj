@@ -3,76 +3,38 @@
   :url "https://github.com/farbetter/mealy"
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
-
-  :plugins [[com.cemerick/clojurescript.test "0.3.3"]
-            [lein-cljsbuild "1.0.3"]
-            [lein-release "1.0.6"]]
-
-  :dependencies
-  [[com.taoensso/encore "1.19.1"]
-   [com.taoensso/timbre "3.3.1"]
-   [org.clojure/clojure "1.6.0"]
-   [org.clojure/clojurescript "0.0-2665"]
-   [org.clojure/core.async "0.1.346.0-17112a-alpha"]]
+  :lein-release {:scm :git
+                 :deploy-via :clojars}
+  :deploy-repositories [["clojars" {:creds :gpg}]]
 
   :profiles {:dev
-             {:plugins [[com.keminglabs/cljx "0.5.0"]]
-              :repl-options
-              {:nrepl-middleware [cemerick.piggieback/wrap-cljs-repl
-                                  cljx.repl-middleware/wrap-cljx]}}}
+             {:plugins [[lein-cljsbuild "1.1.0"]
+                        [lein-release "1.0.9"]]}}
 
-  :prep-tasks [["cljx" "once"]]
+  :dependencies
+  [[com.taoensso/timbre "4.1.4"]
+   [farbetter/utils "0.1.22"]
+   [org.clojure/clojure "1.7.0"]
+   [org.clojure/clojurescript "1.7.145"]
+   [org.clojure/core.async "0.1.346.0-17112a-alpha"]]
 
-  :cljx {:builds [{:source-paths ["src/cljx"]
-                   :output-path "target/generated/src/clj"
-                   :rules :clj}
-                  {:source-paths ["src/cljx"]
-                   :output-path "target/generated/src/cljs"
-                   :rules :cljs}
-                  {:source-paths ["test/cljx"]
-                   :output-path "target/generated/test/clj"
-                   :rules :clj}
-                  {:source-paths ["test/cljx"]
-                   :output-path "target/generated/test/cljs"
-                   :rules :cljs}]}
+  :repl-options
+  {:init-ns farbetter.mealy}
 
   :cljsbuild
   {:builds
-   {"code" {:source-paths ["target/generated/src/cljs"]
-            :jar true
-            :compiler {:output-to "target/main.js"
-                       :optimizations :simple
-                       :pretty-print false}}
-    "test" {:source-paths ["target/generated/src/cljs"
-                           "target/generated/test/cljs"]
-            :compiler {:output-to "target/unit-test.js"
-                       :optimizations :simple
-                       :warnings true
-                       :pretty-print false}}}
-   :test-commands {"unit-tests" ["phantomjs" :runner
-                                 "target/unit-test.js"]}}
-
-  :deploy-repositories [["clojars" {:creds :gpg}]]
-  :lein-release {:scm :git
-                 :deploy-via :clojars}
-
-
-
-  :jar-exclusions [#"\.cljx|\.swp|\.swo|\.DS_Store"]
-  :source-paths ["target/generated/src/clj" "src/clj"]
-  :resource-paths ["target/generated/src/cljs"]
-  :test-paths ["target/generated/test/clj"]
+   [{:id "node-dev"
+     :source-paths ["src" "test"]
+     :notify-command ["node" "target/test/node_dev/test_main.js"]
+     :compiler
+     {:optimizations :none
+      :main "farbetter.test-runner"
+      :target :nodejs
+      :output-to "target/test/node_dev/test_main.js"
+      :output-dir "target/test/node_dev"
+      :source-map true}}]}
 
   :aliases
-  {"testclj" ["do"
-              "clean,"
-              "cljx" "once,"
-              "test"]
-   "testcljs" ["do"
-               "clean,"
-               "cljx" "once,"
-               "cljsbuild" "once" "code" "test,"
-               "cljsbuild" "test" "unit-tests"]
-   "testall" ["do"
-              "testclj,"
-              "testcljs"]})
+  {"auto-test-cljs" ["do"
+                     "clean,"
+                     "cljsbuild" "auto" "node-dev"]})

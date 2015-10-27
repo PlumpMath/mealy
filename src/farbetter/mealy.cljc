@@ -1,12 +1,15 @@
 (ns farbetter.mealy
   (:require
-   [#+clj clojure.core.async
-    #+cljs cljs.core.async
-    :refer [alts! chan close! timeout <! #+clj <!! >! #+clj go]])
-  #+cljs (:require-macros [cljs.core.async.macros :refer [go]]))
+   [#?(:clj clojure.core.async :cljs cljs.core.async)
+    :refer [alts! chan close! timeout <! >! #?@(:clj [go])]])
+  #?(:cljs
+     (:require-macros
+      [cljs.core.async.macros :refer [go go-loop]]
+      [farbetter.utils :refer [inspect]]
+      [taoensso.timbre :refer [debugf errorf infof warnf]])))
 
-#+cljs (def Exception js/Error)
-#+cljs (def Throwable js/Error)
+#?(:cljs (def Exception js/Error))
+#?(:cljs (def Throwable js/Error))
 
 (declare exception->ex-info)
 
@@ -75,9 +78,12 @@
                   shutdown-fn error-fn debug-fn))
 
 (defn- exception->ex-info [e]
-  (if (instance? #+clj clojure.lang.ExceptionInfo
-                 #+cljs cljs.core/ExceptionInfo
+  (if (instance? #?(:clj
+                    clojure.lang.ExceptionInfo
+                    :cljs
+                    cljs.core/ExceptionInfo)
                  e)
     e
-    (ex-info (.getMessage e) {:type :state-machine-exception
-                              :original-exception e})))
+    (ex-info #?(:clj (.getMessage e) :cljs (.-message e))
+             {:type :state-machine-exception
+              :original-exception e})))
